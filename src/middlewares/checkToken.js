@@ -10,23 +10,26 @@ exports.checkToken = async (req, res, next) => {
   const userToken = jwt.decode(token);
 
   try {
+    if (userToken) {
+      const user = await User.find({ email: userToken.user });
 
-    const user = await User.find({ email: userToken.user });
-
-    const match = jwt.verify(token, "secretNuwe")
-    if (!match) {
-      res.status(404).json({
+      const match = jwt.verify(token, "secretNuwe")
+      if (!match) {
+        res.status(401).json({
+          status: 'Error',
+          message: 'Invalid token'
+        })
+      } else {
+        req.user = match;
+        next();
+      };
+    }
+    else {
+      res.status(401).json({
         status: 'Error',
-        message: 'Invalid token'
+        message: 'Token required'
       })
-    } else {
-      /*       res.status(200).json({
-              status: 'Ok',
-              message: 'You´re in'
-            }); */
-      req.user = match;
-      next();
-    };
+    }
 
   } catch (err) {
     console.log(err)
