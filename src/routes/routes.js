@@ -1,7 +1,7 @@
 const Router = require('express');
 const { contentSecurityPolicy } = require('helmet');
 const passport = require('passport');
-const { addUser } = require('../api/user/controller');
+const { addUser, loginUser, createUser } = require('../api/user/controller');
 //const authMiddleware = require('../middlewares/authMiddleware');
 const computeECM = require('../utils/computeECM.js')
 
@@ -13,6 +13,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/computeECM', computeECM)
+
+router.post('/register', createUser);
+
+router.post('/login', loginUser);
 
 /* ST10: POST /register
 Description: Registra al usuario y lo, guarda la sesión usando una estratégia local y envía la información del usuario. En este proceso a través de la función TASK3 para verficiar el correo introducido. */

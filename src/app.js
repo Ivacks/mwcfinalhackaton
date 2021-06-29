@@ -9,7 +9,6 @@ const helmet = require('helmet');
 
 const routes = require('./routes/routes');
 const apiRoutes = require('./routes/apiRoutes');
-const passport = require('./app/passport');
 
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const notFound404 = require('./middlewares/notFound404');
@@ -41,23 +40,8 @@ app.use(passport.session());
 // Public endpoints
 app.use('/', routes);
 
-// Private endpoints
-app.use(
-  '/',
-  (req, res, next) => {
-    if (req.isAuthenticated()) next();
-    else {
-      console.log('error de autentiacion');
-      next({
-        status: 404,
-        message: 'no estás logeado',
-      });
-    }
-  },
-  apiRoutes,
-);
 
 app.use(notFound404);
-//app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 module.exports = app;
