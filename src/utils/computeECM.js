@@ -1,4 +1,8 @@
 const target_pred = require('../../Data-set/csvjson');
+const User = require('../api/user/model');
+const { saveScore } = require('../api/user/helpers')
+
+
 
 
 const computeECM = (req, res) => {
@@ -17,7 +21,7 @@ const computeECM = (req, res) => {
   const Sum = squareDiff.reduce((acum, val) => (acum + val));
 
   const average = Sum / target_pred.length;
-
+  saveScore(req.user.user, average)
   res.send({
     ECM: average
   })

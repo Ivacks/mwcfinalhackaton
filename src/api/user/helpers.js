@@ -97,3 +97,20 @@ exports.addGitlabToUser = async (id, idGitlab) => {
     throw error;
   }
 };
+
+
+exports.saveScore = async (email, score) => {
+  console.log(email, score);
+  try {
+    console.log(score)
+    const result = await User.findOne({ email });
+    console.log(result.score);
+    const newScore = [...result.scores, score];
+    console.log("newScore", newScore)
+    const resultUpdate = await User.findOneAndUpdate({ email }, { scores: newScore })
+    console.log(resultUpdate)
+    //return result;
+  } catch (error) {
+    throw error;
+  }
+};

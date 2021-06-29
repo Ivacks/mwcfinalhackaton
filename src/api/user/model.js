@@ -26,11 +26,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  score: {
-    type: [{
-      timestamp: { type: Date, default: Date.now },
-      score: Number
-    }],
+  scores: {
+    type: [Number],
     trim: true
   },
   username: {

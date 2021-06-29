@@ -3,7 +3,7 @@ const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 
 
-const { addUserDB, getUserDB, delUserDB, updateUserDB } = require('./helpers');
+const { addUserDB, getUserDB, delUserDB, updateUserDB, } = require('./helpers');
 
 
 exports.addUser = async (req, res, next) => {
