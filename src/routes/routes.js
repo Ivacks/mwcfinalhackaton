@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
   res.send("Hello World! I'm a API server");
 });
 
-router.get('/computeECM', computeECM)
+router.push('/computeECM', computeECM)
 
 /* ST10: POST /register
 Description: Registra al usuario y lo, guarda la sesión usando una estratégia local y envía la información del usuario. En este proceso a través de la función TASK3 para verficiar el correo introducido. */
