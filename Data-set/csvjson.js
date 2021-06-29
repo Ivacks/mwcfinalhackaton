@@ -1,4 +1,4 @@
-[
+const cvsjson = [
   {
     "Ingresos": 374.9303382
   },
@@ -2970,3 +2970,7 @@
     "Ingresos": 388.2049082
   }
 ]
+
+const target_pred = cvsjson.map(el=> el.Ingresos)
+
+module.exports = target_pred;

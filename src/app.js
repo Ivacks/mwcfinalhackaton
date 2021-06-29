@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-const secretKey = process.env.SECRET_KEY || 'secretoAutenticacionNuwe';
+/* const secretKey = process.env.SECRET_KEY || 'secretoAutenticacionNuwe';
 app.use(
   session({
     secret: secretKey,
@@ -37,7 +37,7 @@ app.use(cookieParser(secretKey));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+ */
 // Public endpoints
 app.use('/', routes);
 
@@ -58,6 +58,6 @@ app.use(
 );
 
 app.use(notFound404);
-app.use(errorMiddleware);
+//app.use(errorMiddleware);
 
 module.exports = app;
