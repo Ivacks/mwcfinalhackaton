@@ -5,6 +5,8 @@ const computeECM = (req, res) => {
 
   const { predictions } = req.body;
 
+  console.log("hola", req.user)
+
   const squareDiff = target_pred.map((el, index) => {
     const diff = (predictions[index] - el) ** 2;
     //console.log(diff);

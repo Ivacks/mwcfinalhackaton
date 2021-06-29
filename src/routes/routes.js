@@ -3,7 +3,8 @@ const { contentSecurityPolicy } = require('helmet');
 const passport = require('passport');
 const { addUser, loginUser, createUser } = require('../api/user/controller');
 //const authMiddleware = require('../middlewares/authMiddleware');
-const computeECM = require('../utils/computeECM.js')
+const computeECM = require('../utils/computeECM');
+const { checkToken } = require('../middlewares/checkToken')
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
   res.send("Hello World! I'm a API server");
 });
 
-router.post('/computeECM', computeECM)
+router.post('/computeECM', checkToken, computeECM)
 
 router.post('/register', createUser);
 
