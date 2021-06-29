@@ -6,7 +6,9 @@ const computeECM = (req, res) => {
   const { test_pred } = req.body;
 
   const squareDiff = target_pred.map((el, index) => {
-    return (test_pred - target_pred) ** 2
+    const diff = (test_pred - target_pred) ** 2;
+    console.log(diff);
+    return diff;
     //return (el - (target_pred[index] - 0.1)) ** 2
   });
 
