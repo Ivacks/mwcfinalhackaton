@@ -1,4 +1,7 @@
 const User = require('./model');
+const md5 = require('md5');
+const jwt = require('jsonwebtoken');
+
 
 const { addUserDB, getUserDB, delUserDB, updateUserDB } = require('./helpers');
 
@@ -100,5 +103,84 @@ exports.delUser = async (req, res, next) => {
         message: `ERROR, no se ha podido encontrar usuario: ${error}`,
       }),
     );
+};
+
+exports.createUser = async (req, res) => {
+  // 1) Comprobar si el usuario existe en nuestra base de datos
+
+  // Recogemos los campos mail y pass del usuario
+  const { email, password, username } = req.body;
+
+  // Busco en la base de datos si lo tengo
+  const match = await User.find({ email });
+  // console.log(match.length);
+  try {
+
+    // No está en nuestra base de datos, creémoslo
+    if (!match.length) {
+      // Generamos el random hasheado para guardarlo como secret
+      const passKey = "secretNuwe";
+      User.create({ email, username, password: md5(password) });
+
+      // Notificamos el éxito de la operación
+      res.status(200).json({
+        status: 'Success',
+        message: 'User registered'
+      });
+
+      // Ya está en nuestra base de datos, redireccionamos al endpoint '/login'
+    } else {
+      console.log('Ya estás registrado');
+      res.status(301).redirect('/login');
+    };
+
+  } catch (err) {
+    console.log(err)
+    // Notificamos que ha habido algún problema con el servidor
+    res.status(404).json({
+      status: 'Error',
+      message: err
+    });
+
+  };
+
+};
+
+
+
+exports.loginUser = async (req, res) => {
+  // Recogemos los campos enviaos por el usuario para loguearse
+  const { email, password } = req.body;
+
+  // Buscamos en la base de datos si existe el usuario
+  const user = await User.findOne({ email, password: md5(password) });
+
+  try {
+    // Si existe, le mandamos el jwt
+    if (user) {
+      const payload = {
+        user: email,
+        check: true
+      }
+      const token = jwt.sign(payload, "secretNuwe")
+      console.log(token);
+
+      res.status(200).json({
+        status: 'ok',
+        token
+      });
+
+    } else {
+      res.status(404).json({
+        status: 'Error',
+        message: 'User not found'
+      });
+    };
+
+  } catch (err) {
+    console.log(err);
+  };
+
+
 };
 

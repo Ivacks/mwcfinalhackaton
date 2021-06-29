@@ -1,5 +1,4 @@
 const mongoose = require('../../app/database');
-const SHA256 = require('crypto-js/sha256');
 const { nanoid } = require('nanoid');
 const validateEmail = require('../../utils/validateEmail');
 
@@ -22,13 +21,23 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-});
+  username: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  score: {
+    type: [{
+      timestamp: { type: Date, default: Date.now },
+      score: Number
+    }],
+    trim: true
+  },
+  username: {
+    type: String,
+    trim: true
+  },
 
-userSchema.pre('save', function (next) {
-  const user = this;
-
-  user.password = SHA256(user.password);
-  next();
 });
 
 const User = mongoose.model('User', userSchema);
