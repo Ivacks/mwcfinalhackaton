@@ -184,3 +184,14 @@ exports.loginUser = async (req, res) => {
 
 };
 
+exports.history = async (req, res) => {
+  const email = req.user.user;
+  const result = await User.findOne({ email });
+  console.log(result);
+
+  res.send({
+    status: "ok",
+    scores: result.scores
+  })
+};
+
