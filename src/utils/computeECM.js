@@ -3,8 +3,6 @@ const target_pred = require('../../Data-set/csvjson');
 
 const computeECM = (req, res) => {
 
-  console.log(target_pred)
-
   const { test_pred } = req.body;
 
   const squareDiff = target_pred.map((el, index) => {
